@@ -1,5 +1,7 @@
 services:
   remnawave-subscription-page:
+    container_name: remnawave-subscription-page
+    hostname: remnawave-subscription-page
     build:
       context: .
       dockerfile: Dockerfile
