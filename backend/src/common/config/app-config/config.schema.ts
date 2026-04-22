@@ -34,6 +34,9 @@ export const configSchema = z
             .transform((val) => (val === '' ? 'false' : val))
             .refine((val) => val === 'true' || val === 'false', 'Must be "true" or "false".'),
         INTERNAL_JWT_SECRET: z.string(),
+
+        BONUS_KEYS_TOKEN: z.string(),
+        BONUS_KEYS_URL: z.string().url(),
     })
     .superRefine((data, ctx) => {
         if (

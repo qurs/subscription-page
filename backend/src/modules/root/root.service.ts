@@ -1,4 +1,4 @@
-import { RawAxiosResponseHeaders } from 'axios';
+import axios, { RawAxiosResponseHeaders } from 'axios';
 import { AxiosResponseHeaders } from 'axios';
 import { Request, Response } from 'express';
 import { createHash } from 'node:crypto';
@@ -124,6 +124,179 @@ export class RootService {
                     .forEach(([key, value]) => {
                         res.setHeader(key, value);
                     });
+            }
+
+            if (Array.isArray(subscriptionDataResponse.response)) {
+                let disabled = false;
+                for (const item of subscriptionDataResponse.response) {
+                    if (item.remarks == 'UNAVAILABLE') {
+                        disabled = true;
+                        break;
+                    }
+                }
+
+                if (!disabled) {
+                    const res = await axios.get(
+                        this.configService.getOrThrow<string>('BONUS_KEYS_URL'),
+                        {
+                            headers: {
+                                'user-agent': 'Remnawave Subscription Page',
+                                Authorization: `Bearer ${this.configService.getOrThrow('BONUS_KEYS_TOKEN')}`,
+                            },
+                            validateStatus: () => true,
+                        },
+                    );
+
+                    const bonusKeys = res.status === 200 && Array.isArray(res.data) ? res.data : [];
+
+                    let i = 0;
+                    let outbounds: Array<any> = [];
+                    let remarkNumber = 1;
+                    for (const outbound of bonusKeys) {
+                        outbounds.push(outbound);
+
+                        if ((i + 1) % 10 == 0 || i === bonusKeys.length - 1) {
+                            subscriptionDataResponse.response.push({
+                                burstObservatory: {
+                                    pingConfig: {
+                                        connectivity: '',
+                                        destination: 'http://www.gstatic.com/generate_204',
+                                        interval: '1m',
+                                        sampling: 1,
+                                        timeout: '3s',
+                                    },
+                                    subjectSelector: ['proxy'],
+                                },
+                                dns: {
+                                    queryStrategy: 'UseIPv4',
+                                    servers: [
+                                        {
+                                            address: '77.88.8.8',
+                                            domains: [
+                                                'geosite:category-ru',
+                                                'geosite:yandex',
+                                                'geosite:vk',
+                                                'geosite:mailru',
+                                                'domain:ru',
+                                                'domain:su',
+                                                'domain:xn--p1ai',
+                                                'domain:mos.ru',
+                                            ],
+                                            expectIPs: ['geoip:ru'],
+                                            port: 53,
+                                        },
+                                        'https+local://149.112.112.112/dns-query',
+                                        'https+local://9.9.9.9/dns-query',
+                                        'https+local://1.0.0.1/dns-query',
+                                        'https+local://1.1.1.1/dns-query',
+                                        'https+local://8.8.4.4/dns-query',
+                                        'https+local://8.8.8.8/dns-query',
+                                        '149.112.112.112',
+                                        '9.9.9.9',
+                                        '1.0.0.1',
+                                        '8.8.4.4',
+                                        '1.1.1.1',
+                                        '8.8.8.8',
+                                        '208.67.222.222',
+                                        '45.90.28.0',
+                                    ],
+                                },
+                                inbounds: [
+                                    {
+                                        listen: '127.0.0.1',
+                                        port: 10808,
+                                        protocol: 'socks',
+                                        settings: {
+                                            auth: 'noauth',
+                                            udp: true,
+                                        },
+                                        sniffing: {
+                                            destOverride: ['http', 'tls', 'quic'],
+                                            enabled: true,
+                                            routeOnly: false,
+                                        },
+                                        tag: 'socks',
+                                    },
+                                    {
+                                        listen: '127.0.0.1',
+                                        port: 10809,
+                                        protocol: 'http',
+                                        settings: {
+                                            allowTransparent: false,
+                                        },
+                                        sniffing: {
+                                            destOverride: ['http', 'tls', 'quic'],
+                                            enabled: true,
+                                            routeOnly: false,
+                                        },
+                                        tag: 'http',
+                                    },
+                                ],
+                                meta: null,
+                                outbounds: [
+                                    ...outbounds,
+                                    {
+                                        protocol: 'freedom',
+                                        tag: 'direct',
+                                    },
+                                    {
+                                        protocol: 'blackhole',
+                                        tag: 'block',
+                                    },
+                                ],
+                                remarks: `🇪🇺 🏳️-LTE | 🌐 Белые списки #${remarkNumber}`,
+                                routing: {
+                                    balancers: [
+                                        {
+                                            fallbackTag: 'proxy',
+                                            selector: ['proxy'],
+                                            strategy: {
+                                                settings: {
+                                                    baselines: ['1s'],
+                                                    expected: 2,
+                                                    maxRTT: '1s',
+                                                    tolerance: 0.01,
+                                                },
+                                                type: 'leastLoad',
+                                            },
+                                            tag: 'Super_Balancer',
+                                        },
+                                    ],
+                                    domainMatcher: 'hybrid',
+                                    domainStrategy: 'IPIfNonMatch',
+                                    rules: [
+                                        {
+                                            outboundTag: 'direct',
+                                            protocol: ['bittorrent'],
+                                            type: 'field',
+                                        },
+                                        {
+                                            balancerTag: 'Super_Balancer',
+                                            network: 'tcp,udp',
+                                            type: 'field',
+                                        },
+                                        {
+                                            domain: [
+                                                'https://ipv4-internet.yandex.net/api/v0/ip',
+                                                'https://ipv6-internet.yandex.net/api/v0/ip',
+                                                'https://ifconfig.me/ip',
+                                                'https://api.ipify.org',
+                                                'https://checkip.amazonaws.com',
+                                                'https://ip.mail.ru/',
+                                            ],
+                                            outboundTag: 'direct',
+                                            type: 'field',
+                                        },
+                                    ],
+                                },
+                            });
+
+                            outbounds = [];
+                            remarkNumber++;
+                        }
+                        i++;
+                    }
+                }
             }
 
             res.status(200).send(subscriptionDataResponse.response);
