@@ -155,51 +155,22 @@ export class RootService {
                     for (const outbound of bonusKeys) {
                         outbounds.push(outbound);
 
-                        if ((i + 1) % 10 == 0 || i === bonusKeys.length - 1) {
+                        if ((i + 1) % 50 == 0 || i === bonusKeys.length - 1) {
                             subscriptionDataResponse.response.push({
                                 burstObservatory: {
                                     pingConfig: {
                                         connectivity: '',
-                                        destination: 'http://www.gstatic.com/generate_204',
-                                        interval: '1m',
-                                        sampling: 1,
+                                        destination:
+                                            'http://connectivitycheck.gstatic.com/generate_204',
+                                        interval: '15s',
+                                        sampling: 2,
                                         timeout: '3s',
                                     },
                                     subjectSelector: ['proxy'],
                                 },
+
                                 dns: {
-                                    queryStrategy: 'UseIPv4',
-                                    servers: [
-                                        {
-                                            address: '77.88.8.8',
-                                            domains: [
-                                                'geosite:category-ru',
-                                                'geosite:yandex',
-                                                'geosite:vk',
-                                                'geosite:mailru',
-                                                'domain:ru',
-                                                'domain:su',
-                                                'domain:xn--p1ai',
-                                                'domain:mos.ru',
-                                            ],
-                                            expectIPs: ['geoip:ru'],
-                                            port: 53,
-                                        },
-                                        'https+local://149.112.112.112/dns-query',
-                                        'https+local://9.9.9.9/dns-query',
-                                        'https+local://1.0.0.1/dns-query',
-                                        'https+local://1.1.1.1/dns-query',
-                                        'https+local://8.8.4.4/dns-query',
-                                        'https+local://8.8.8.8/dns-query',
-                                        '149.112.112.112',
-                                        '9.9.9.9',
-                                        '1.0.0.1',
-                                        '8.8.4.4',
-                                        '1.1.1.1',
-                                        '8.8.8.8',
-                                        '208.67.222.222',
-                                        '45.90.28.0',
-                                    ],
+                                    servers: ['77.88.8.8'],
                                 },
                                 inbounds: [
                                     {
@@ -252,11 +223,12 @@ export class RootService {
                                             selector: ['proxy'],
                                             strategy: {
                                                 settings: {
-                                                    baselines: ['1s'],
-                                                    expected: 2,
-                                                    maxRTT: '1s',
-                                                    tolerance: 0.01,
+                                                    baselines: ['200ms', '500ms', '1000ms'],
+                                                    expected: 1,
+                                                    maxRTT: '1.5s',
+                                                    tolerance: 0.3,
                                                 },
+
                                                 type: 'leastLoad',
                                             },
                                             tag: 'Super_Balancer',
@@ -265,6 +237,11 @@ export class RootService {
                                     domainMatcher: 'hybrid',
                                     domainStrategy: 'IPIfNonMatch',
                                     rules: [
+                                        {
+                                            outboundTag: 'direct',
+                                            port: '53',
+                                            type: 'field',
+                                        },
                                         {
                                             outboundTag: 'direct',
                                             protocol: ['bittorrent'],
