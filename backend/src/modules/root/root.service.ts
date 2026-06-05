@@ -155,7 +155,14 @@ export class RootService {
                     for (const outbound of bonusKeys) {
                         outbounds.push(outbound);
 
-                        if ((i + 1) % 50 == 0 || i === bonusKeys.length - 1) {
+                        if (
+                            (i + 1) %
+                                this.configService.getOrThrow<number>(
+                                    'BONUS_KEYS_COUNT_PER_BALANCER',
+                                ) ==
+                                0 ||
+                            i === bonusKeys.length - 1
+                        ) {
                             subscriptionDataResponse.response.push({
                                 burstObservatory: {
                                     pingConfig: {

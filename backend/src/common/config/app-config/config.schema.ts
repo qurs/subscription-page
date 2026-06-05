@@ -37,6 +37,7 @@ export const configSchema = z
 
         BONUS_KEYS_TOKEN: z.string(),
         BONUS_KEYS_URL: z.string().url(),
+        BONUS_KEYS_COUNT_PER_BALANCER: z.coerce.number().default(25),
     })
     .superRefine((data, ctx) => {
         if (
