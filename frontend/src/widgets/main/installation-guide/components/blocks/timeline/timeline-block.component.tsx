@@ -60,7 +60,7 @@ export const TimelineBlockRenderer = ({
                                 size={isMobile ? 'xs' : 'sm'}
                                 style={{ lineHeight: 1.6 }}
                             />
-                            {renderBlockButtons(block.buttons, 'light')}
+                            {renderBlockButtons(block.buttons, 'filled')}
                         </Stack>
                     </Timeline.Item>
                 )

@@ -138,7 +138,8 @@ export const InstallationGuideConnector = (props: IProps) => {
                             />
                         }
                         onClick={() => handleButtonClick(button)}
-                        radius="md"
+                        radius="xl"
+                        size="md"
                         variant={variant}
                     >
                         {t(button.text)}

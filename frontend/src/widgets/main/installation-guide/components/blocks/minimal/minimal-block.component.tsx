@@ -47,7 +47,7 @@ export const MinimalBlockRenderer = ({
                         />
                         {block.buttons.length > 0 && (
                             <Box style={{ marginTop: 8 }}>
-                                {renderBlockButtons(block.buttons, 'subtle')}
+                                {renderBlockButtons(block.buttons, 'filled')}
                             </Box>
                         )}
                     </Box>

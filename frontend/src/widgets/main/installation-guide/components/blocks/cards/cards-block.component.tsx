@@ -58,7 +58,7 @@ export const CardsBlockRenderer = ({
                                     />
                                 </Text>
 
-                                {renderBlockButtons(block.buttons, 'light')}
+                                {renderBlockButtons(block.buttons, 'filled')}
                             </Stack>
                         </Group>
                     </Card>

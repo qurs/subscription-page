@@ -15,8 +15,15 @@
 }
 
 .actionIcon {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(150deg, hsl(0deg 84% 58% / 25%), hsl(0deg 84% 58% / 8%));
+    border: 1px solid hsl(0deg 84% 58% / 30%);
+    color: var(--mantine-color-red-4);
+    box-shadow: 0 4px 14px -6px hsl(0deg 84% 58% / 50%);
+}
+
+.actionIcon:hover {
+    background: linear-gradient(150deg, hsl(0deg 84% 58% / 35%), hsl(0deg 84% 58% / 14%));
+    border-color: hsl(0deg 84% 58% / 45%);
 }
 
 /* Брендовая «пилюля»: красный градиент, скруглённая, со свечением — главный CTA */

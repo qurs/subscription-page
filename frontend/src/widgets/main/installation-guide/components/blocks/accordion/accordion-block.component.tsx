@@ -78,7 +78,7 @@ export const AccordionBlockRenderer = ({
                                 style={{ lineHeight: 1.7 }}
                             />
                             <Group gap="xs" mt="sm" wrap="wrap">
-                                {renderBlockButtons(block.buttons, 'light')}
+                                {renderBlockButtons(block.buttons, 'filled')}
                             </Group>
                         </Accordion.Panel>
                     </Accordion.Item>
