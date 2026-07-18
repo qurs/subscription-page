@@ -38,7 +38,7 @@ export const SubscriptionLinkWidget = ({ supportUrl, hideGetLink }: IProps) => {
         notifications.show({
             title: t(baseTranslations.linkCopied),
             message: t(baseTranslations.linkCopiedToClipboard),
-            color: 'cyan'
+            color: 'red'
         })
         clipboard.copy(subscriptionUrl)
     }
@@ -56,7 +56,7 @@ export const SubscriptionLinkWidget = ({ supportUrl, hideGetLink }: IProps) => {
 
         const { icon: Icon, color } = matchedPlatform
             ? matchedPlatform[1]
-            : { icon: IconMessageChatbot, color: 'cyan' }
+            : { icon: IconMessageChatbot, color: 'red' }
 
         return (
             <ActionIcon
@@ -83,7 +83,7 @@ export const SubscriptionLinkWidget = ({ supportUrl, hideGetLink }: IProps) => {
 
         const subscriptionQrCode = renderSVG(subscriptionUrl, {
             whiteColor: '#161B22',
-            blackColor: '#22d3ee'
+            blackColor: '#ee3a3a'
         })
 
         modals.open({
@@ -108,11 +108,12 @@ export const SubscriptionLinkWidget = ({ supportUrl, hideGetLink }: IProps) => {
                     </Text>
 
                     <Button
+                        className={classes.copyPill}
                         fullWidth
                         leftSection={<IconCopy />}
                         onClick={handleCopy}
-                        radius="md"
-                        variant="light"
+                        radius="xl"
+                        variant="default"
                     >
                         {t(baseTranslations.copyLink)}
                     </Button>

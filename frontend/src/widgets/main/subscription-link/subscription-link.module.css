@@ -18,3 +18,31 @@
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
+/* Брендовая «пилюля»: красный градиент, скруглённая, со свечением — главный CTA */
+.copyPill {
+    background: linear-gradient(135deg, hsl(0deg 84% 58%), hsl(348deg 80% 42%));
+    border: none;
+    border-radius: 9999px;
+    color: hsl(0deg 0% 100%);
+    font-weight: 600;
+    box-shadow:
+        0 1px 0 0 hsl(0deg 0% 100% / 15%) inset,
+        0 8px 20px -8px hsl(0deg 84% 58% / 55%);
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.25s ease,
+        filter 0.2s ease;
+}
+
+.copyPill:hover {
+    filter: brightness(1.08);
+    box-shadow:
+        0 1px 0 0 hsl(0deg 0% 100% / 20%) inset,
+        0 10px 28px -6px hsl(0deg 84% 58% / 70%);
+}
+
+.copyPill:active {
+    transform: scale(0.97);
+    filter: brightness(0.92);
+}

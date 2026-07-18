@@ -6,7 +6,7 @@ export const theme = createTheme({
     components,
     cursorType: 'pointer',
     fontFamily:
-        'Montserrat, Vazirmatn, Apple Color Emoji, Noto Sans SC, Twemoji Country Flags, sans-serif',
+        'Inter, Vazirmatn, Apple Color Emoji, Noto Sans SC, Twemoji Country Flags, sans-serif',
     fontFamilyMonospace: 'Fira Mono, monospace',
     breakpoints: {
         xs: '25em',
@@ -84,15 +84,28 @@ export const theme = createTheme({
             '#762c00',
             '#5c2200',
             '#471700'
+        ],
+
+        red: [
+            '#fff1f0',
+            '#ffddd9',
+            '#ffc1bb',
+            '#ff9e96',
+            '#fa7a6f',
+            '#f65d51',
+            '#f14539',
+            '#ef3d37',
+            '#ee3a3a',
+            '#c41f2a'
         ]
     },
     primaryShade: 8,
-    primaryColor: 'cyan',
+    primaryColor: 'red',
     autoContrast: true,
     luminanceThreshold: 0.3,
     headings: {
-        fontFamily: 'Unbounded, Vazirmatn, Apple Color Emoji, Noto Sans SC, sans-serif',
+        fontFamily: 'Inter, Vazirmatn, Apple Color Emoji, Noto Sans SC, sans-serif',
         fontWeight: '600'
     },
-    defaultRadius: 'md'
+    defaultRadius: 'lg'
 })

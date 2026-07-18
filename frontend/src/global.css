@@ -1,17 +1,22 @@
 html,
 body {
     min-height: 100vh;
-    background-color: #161b23;
+    /* Тёплый почти-чёрный фон + мягкие брендовые красные ауры (сверху и снизу-справа).
+       Даёт глубину без «плоского серого». Сетка убрана. */
+    background-color: hsl(240deg 12% 4%);
     background-image:
-        linear-gradient(to right, rgba(128, 128, 128, 0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
-    background-size: 60px 60px;
+        radial-gradient(120% 80% at 50% -10%, hsl(0deg 70% 20% / 35%), transparent 60%),
+        radial-gradient(90% 60% at 100% 100%, hsl(350deg 70% 22% / 18%), transparent 55%);
     background-attachment: fixed;
     position: relative;
 }
 
 #root {
     height: 100vh;
+}
+
+::selection {
+    background: hsl(0deg 84% 58% / 30%);
 }
 
 .animated-background {
@@ -21,20 +26,69 @@ body {
     right: 0;
     bottom: 0;
     pointer-events: none;
+    overflow: hidden;
     z-index: 0;
     background:
-        radial-gradient(ellipse 60% 40% at 25% 40%, rgba(151, 117, 250, 0.08), transparent 50%),
-        radial-gradient(ellipse 50% 50% at 85% 85%, rgba(34, 211, 238, 0.06), transparent 50%);
+        radial-gradient(ellipse 60% 40% at 25% 40%, rgba(238, 58, 58, 0.08), transparent 50%),
+        radial-gradient(ellipse 50% 50% at 85% 85%, rgba(244, 63, 94, 0.06), transparent 50%);
+}
+
+/* Плавающие размытые «орбы» — живой брендовый фон без нагрузки на layout */
+.animated-background::before,
+.animated-background::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    will-change: transform;
+}
+
+.animated-background::before {
+    width: 22rem;
+    height: 22rem;
+    top: -6rem;
+    right: -6rem;
+    background: rgba(238, 58, 58, 0.25);
+    animation: orb-float 14s ease-in-out infinite;
+}
+
+.animated-background::after {
+    width: 18rem;
+    height: 18rem;
+    bottom: 20%;
+    left: -6rem;
+    background: rgba(244, 63, 94, 0.15);
+    animation: orb-float 14s ease-in-out infinite;
+    animation-delay: -7s;
+}
+
+@keyframes orb-float {
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    50% {
+        transform: translate(20px, -25px) scale(1.08);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animated-background::before,
+    .animated-background::after {
+        animation: none;
+    }
 }
 
 .header-wrapper {
     position: sticky;
     top: 0;
     z-index: 100;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    background: rgba(22, 27, 35, 0.8);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    background: hsl(240deg 12% 6% / 72%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 
     @media (min-width: 768px) {
         border-radius: 0 0 var(--mantine-radius-lg) var(--mantine-radius-lg);
@@ -42,7 +96,7 @@ body {
 }
 
 .logo-text-highlight {
-    color: var(--mantine-color-cyan-4);
+    color: var(--mantine-color-red-4);
 }
 
 .logo-text-normal {
@@ -65,8 +119,8 @@ body {
 }
 
 .info-card-red {
-    background: linear-gradient(135deg, rgba(250, 82, 82, 0.1) 0%, rgba(224, 49, 49, 0.05) 100%);
-    border: 1px solid rgba(250, 82, 82, 0.2);
+    background: linear-gradient(135deg, rgba(238, 58, 58, 0.1) 0%, rgba(196, 31, 42, 0.05) 100%);
+    border: 1px solid rgba(238, 58, 58, 0.2);
 }
 
 .info-card-yellow {
