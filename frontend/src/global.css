@@ -95,7 +95,7 @@ body {
     }
 }
 
-/* Брендовые кнопки в стиле FreeCat.
+/* Брендовые кнопки в стиле.
    filled → красная градиентная «пилюля» со свечением (главный CTA).
    default/outline/light/subtle → тёмная «пилюля» с тонкой обводкой (вторичные). */
 .mantine-Button-root[data-variant='filled'] {
