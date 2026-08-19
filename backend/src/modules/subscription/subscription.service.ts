@@ -44,6 +44,11 @@ export class SubscriptionService {
 				res.set(subscriptionDataResponse.headers)
 			}
 
+			console.log(
+				'subscriptionDataResponse.subscription',
+				Array.isArray(subscriptionDataResponse.subscription),
+				subscriptionDataResponse.subscription,
+			)
 			if (Array.isArray(subscriptionDataResponse.subscription)) {
 				let disabled = false
 				for (const item of subscriptionDataResponse.subscription) {
