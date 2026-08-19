@@ -44,14 +44,18 @@ export class SubscriptionService {
 				res.set(subscriptionDataResponse.headers)
 			}
 
-			console.log(
-				'subscriptionDataResponse.subscription',
-				Array.isArray(subscriptionDataResponse.subscription),
-				subscriptionDataResponse.subscription,
-			)
-			if (Array.isArray(subscriptionDataResponse.subscription)) {
+			let subscription: any
+			try {
+				subscription = JSON.parse(
+					subscriptionDataResponse.subscription.toString('utf-8'),
+				)
+			} catch {
+				subscription = subscriptionDataResponse.subscription
+			}
+
+			if (Array.isArray(subscription)) {
 				let disabled = false
-				for (const item of subscriptionDataResponse.subscription) {
+				for (const item of subscription) {
 					if (item.remarks == 'UNAVAILABLE') {
 						disabled = true
 						break
@@ -89,7 +93,7 @@ export class SubscriptionService {
 								0 ||
 							i === bonusKeys.length - 1
 						) {
-							subscriptionDataResponse.subscription.push({
+							subscription.push({
 								burstObservatory: {
 									pingConfig: {
 										connectivity: '',
@@ -221,7 +225,7 @@ export class SubscriptionService {
 				}
 			}
 
-			res.status(200).send(subscriptionDataResponse.subscription)
+			res.status(200).send(subscription)
 			return
 		} catch (error) {
 			this.logger.error('Error in serveSubscriptionPage', error)
